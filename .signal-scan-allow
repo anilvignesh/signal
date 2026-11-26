@@ -1,0 +1,31 @@
+# Signal wraps Claude Code, so the tool name is legitimate in these files.
+# Each line is a regex matched against "<where>\t<text>".
+^CLAUDE\.md:\d+\t
+^path:CLAUDE\.md\t
+^path:scripts/no-claude-scan\.js\t
+^scripts/(no-claude-scan|backend-check)\.js:\d+\t
+^tests/release-gate\.test\.js:\d+\t
+^skills/agents/backend-review/SKILL\.md:\d+\t
+^skills/eng/SKILL\.md:\d+\t
+^skills/registry\.json:\d+\t
+^commit:[0-9a-f]+\tAdd release gate: no-claude scan
+^scripts/pr-ship\.js:\d+\t
+^tests/pr-ship\.test\.js:\d+\t
+^skills/agents/(builder|task-reviewer)/SKILL\.md:\d+\t
+^skills/agents/design-flow/SKILL\.md:\d+\t.*Claude Artifact
+^tests/eng\.test\.js:\d+\t
+^skills/signal/SKILL\.md:\d+\t
+^tests/install\.test\.js:\d+\t.*\.claude/skills
+^tasks/restructure-plan\.md:\d+\t
+^README\.md:\d+\t
+^bin/signal\.js:\d+\t
+^tasks/(NEXT|lessons)\.md:\d+\t
+^tests/(claude|registry)\.test\.js:\d+\t
+^scripts/(verify-agents|claude|setup-hooks|hook)\.js:\d+\t
+^scripts/install\.sh:\d+\t
+^tests/(setup-hooks|signal-bin)\.test\.js:\d+\t
+^tasks/v0\.4-plan\.md:\d+\t
+^extras/README\.md:\d+\t
+^skills/agents/design-flow/SKILL\.md:\d+\t
+^path:(scripts|tests)/claude(\.test)?\.js\t
+^commit:[0-9a-f]+\t(?!.*(Co-Authored-By|Claude-Session|claude\.ai|session_0)).*

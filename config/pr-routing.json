@@ -1,0 +1,61 @@
+{
+  "base": "main",
+  "maxFiles": 20,
+  "maxLines": 600,
+  "maxBlast": 5,
+  "repos": {
+    "acme_backend": {
+      "kind": "backend",
+      "readyLabel": "ready for merge",
+      "reviewers": [
+        {
+          "name": "Alex",
+          "login": "alex-dev",
+          "chat": "U0AAAAAAAA1"
+        },
+        {
+          "name": "Sam",
+          "login": "sam-dev",
+          "chat": "U0AAAAAAAA2"
+        },
+        {
+          "name": "Jordan",
+          "login": "jordan-dev",
+          "chat": "U0AAAAAAAA3"
+        }
+      ]
+    },
+    "acme_web": {
+      "kind": "frontend",
+      "readyLabel": "ready-to-merge",
+      "reviewers": [
+        {
+          "name": "Riya",
+          "login": "riya-dev",
+          "chat": "U0AAAAAAAA4"
+        },
+        {
+          "name": "Sid",
+          "login": "sid-dev",
+          "chat": "U0AAAAAAAA5"
+        }
+      ]
+    },
+    "acme_admin": {
+      "kind": "frontend",
+      "readyLabel": null,
+      "reviewers": [
+        {
+          "name": "Riya",
+          "login": "riya-dev",
+          "chat": "U0AAAAAAAA4"
+        },
+        {
+          "name": "Sid",
+          "login": "sid-dev",
+          "chat": "U0AAAAAAAA5"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1 @@
+The review agents (`review-*`), the `resolve` rules and the files in `skills/standards/` are adapted from the reviewer personas, resolve skill and document standards of google/elephant-goldfish-model, licensed under Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0). They are reworded for PRDs and specs and changed to run as native Signal agents.

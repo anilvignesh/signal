@@ -1,0 +1,16 @@
+{
+  "name": "signal-pm-stack",
+  "version": "0.1.0",
+  "description": "Signal — AI-powered PM lifecycle toolkit",
+  "type": "module",
+  "private": true,
+  "bin": {"signal": "bin/signal.js"},
+  "scripts": {
+    "test": "node --test",
+    "watch": "node bin/signal.js watch",
+    "verify:agents": "node scripts/verify-agents.js",
+    "verify:agents:live": "node scripts/verify-agents.js --live"
+  },
+  "dependencies": {},
+  "engines": { "node": ">=20.0.0" }
+}

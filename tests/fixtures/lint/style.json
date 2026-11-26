@@ -1,0 +1,1 @@
+{"banned_words":["AcmeBank","BetaBank","GammaBank"],"banned_patterns":["\\bT\\d{2}\\b"],"status_words":["Built","Partly built","Not built"],"required_lines":["Scope: PA-CB, export lane"],"table_columns":{"Rule":3}}

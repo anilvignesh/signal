@@ -1,0 +1,328 @@
+{
+  "skills": {
+    "signal": {
+      "kind": "spine",
+      "tier": "fast",
+      "path": "skills/signal/SKILL.md",
+      "purpose": "Single trigger: asks every question once, then runs the PM pipeline and the Engineering Director on their recommended defaults, stopping at the PRD freeze and the PR plan",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "artifacts", "next"],
+      "outputs": null,
+      "use_when": "The user types /signal with a request and wants it taken from idea to a ready PR plan in one run"
+    },
+    "pm": {
+      "kind": "spine",
+      "tier": "fast",
+      "path": "skills/pm/SKILL.md",
+      "purpose": "PM Director — routes every request to the minimum set of agents, owns .pm/state.md, runs the four checkpoints",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "artifacts", "next"],
+      "outputs": null,
+      "use_when": "Always the entry point. The user talks to the Director, never to agents directly."
+    },
+    "setup": {
+      "kind": "spine",
+      "tier": "fast",
+      "path": "skills/setup/SKILL.md",
+      "purpose": "Bootstraps a product: creates .pm/state.md, then records the product, users, market and north star as Facts and domain terms as Glossary entries",
+      "needs": [],
+      "outputs": null,
+      "use_when": "No .pm/state.md exists yet for this product"
+    },
+    "maintain-context": {
+      "kind": "spine",
+      "tier": "fast",
+      "path": "skills/maintain-context/SKILL.md",
+      "purpose": "Archives the oldest Facts when they pass the limit, and writes a session handoff so the next session resumes cleanly",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "next"],
+      "outputs": ".pm/handoff.md",
+      "use_when": "state.js check reports over the fact limit, or the session is ending"
+    },
+    "discovery": {
+      "kind": "lifecycle",
+      "tier": "fast",
+      "path": "skills/discovery/SKILL.md",
+      "purpose": "Frame stage: inventory, research, then six brainstorm lenses, ending in the concepts brief",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "artifacts"],
+      "outputs": ".pm/concepts_brief.md",
+      "use_when": "A new idea has no concepts brief yet, or the brief has no evidence behind it"
+    },
+    "prioritize": {
+      "kind": "lifecycle",
+      "tier": "fast",
+      "path": "skills/prioritize/SKILL.md",
+      "purpose": "Buckets discovery tasks into v0/v1/v2 with an explicit cut line and reasoning",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "artifacts"],
+      "outputs": ".pm/backlog.md",
+      "use_when": "A task list exists and needs a scope decision"
+    },
+    "prd": {
+      "kind": "lifecycle",
+      "tier": "fast",
+      "path": "skills/prd/SKILL.md",
+      "purpose": "Drafts the PRD section by section from the concepts brief, then writes acceptance criteria; freezes it once review passes",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "artifacts"],
+      "outputs": [".pm/prd/{version}/prd.md", ".pm/prd/{version}/acceptance-criteria.md", ".pm/prd/{version}/metrics.md", ".pm/prd/{version}/CHANGELOG.md", ".pm/prd/{version}/one-pager.md", ".pm/prd/{version}/story-map.md"],
+      "params": {
+        "version": ["v0", "v1", "v2"]
+      },
+      "use_when": "Scope is locked and the work needs a spec"
+    },
+    "gtm-check": {
+      "kind": "lifecycle",
+      "tier": "deep",
+      "path": "skills/gtm-check/SKILL.md",
+      "purpose": "Ship gate — returns SHIP or DO NOT SHIP with the specific unmet condition",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts", "openQuestions"],
+      "outputs": ".pm/gtm-check.md",
+      "use_when": "A PRD is frozen and the work is close to launch",
+      "params": {
+        "version": ["v0", "v1", "v2"]
+      }
+    },
+    "ux-review": {
+      "kind": "lifecycle",
+      "tier": "fast",
+      "path": "skills/ux-review/SKILL.md",
+      "purpose": "Critiques UI across conversion, accessibility, heuristics, and brand from source code or screenshots",
+      "needs": ["phase", "facts", "glossary", "artifacts"],
+      "outputs": ".pm/ux-review.md",
+      "params": {
+        "target": true
+      },
+      "use_when": "There is a UI to critique — frontend source in the repo, or screenshots provided"
+    },
+    "research": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/research/SKILL.md",
+      "purpose": "Facts from outside the building through one of four lenses, using web search",
+      "needs": ["phase", "facts"],
+      "outputs": ".pm/research/{lens}.md",
+      "params": {
+        "lens": ["regulatory", "competitive", "industry", "voc"]
+      },
+      "use_when": "The question cannot be answered from state, the repo, or the user"
+    },
+    "ac-agent": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/ac-agent/SKILL.md",
+      "purpose": "Writes testable acceptance criteria for the engineering handoff",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts"],
+      "outputs": ".pm/prd/{version}/acceptance-criteria.md",
+      "use_when": "A PRD is approved and needs criteria a developer can test against",
+      "params": {
+        "version": ["v0", "v1", "v2"]
+      }
+    },
+    "red-team": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/red-team/SKILL.md",
+      "purpose": "Attacks the design — money-loss paths, fraud vectors, race conditions, partial-failure states, reconciliation holes, regulatory exposure",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts"],
+      "outputs": ".pm/red-team.md",
+      "use_when": "A design or PRD touches money, identity, state transitions, or an external provider"
+    },
+    "data-model": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/data-model/SKILL.md",
+      "purpose": "Turns a PRD into entities, state machines, invariants, and migration/backfill notes",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts"],
+      "outputs": ".pm/data-model.md",
+      "use_when": "The feature introduces new entities or new states on existing ones"
+    },
+    "design-flow": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/design-flow/SKILL.md",
+      "purpose": "Builds a mock-data prototype from a frozen PRD by copying real production pages and adding only the change, with screenshots and a differences-vs-production list",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts"],
+      "outputs": ".pm/design/{feature}/flow.md",
+      "params": {
+        "feature": true
+      },
+      "use_when": "A frozen PRD adds or changes screens"
+    },
+    "tickets": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/tickets/SKILL.md",
+      "purpose": "Turns a frozen PRD version into one PRD-style backlog ticket",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts"],
+      "outputs": ".pm/prd/{version}/ticket.md",
+      "params": {
+        "version": ["v0", "v1", "v2"]
+      },
+      "use_when": "A PRD version is frozen and the work needs a ticket in a tracker"
+    },
+    "metrics": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/metrics/SKILL.md",
+      "purpose": "Defines success, the events that must fire, and the query that answers whether it worked",
+      "needs": ["phase", "facts", "decisions", "glossary", "artifacts"],
+      "outputs": ".pm/metrics.md",
+      "use_when": "A PRD exists without a measurement plan"
+    },
+    "ground": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/ground/SKILL.md",
+      "purpose": "Checks claims about the existing system against the deployed code, searching every repo and area, and records evidence with the ref and commit",
+      "needs": ["phase", "facts", "decisions"],
+      "outputs": ".pm/evidence.md",
+      "use_when": "A PRD or discovery makes a claim about what the existing system does or lacks"
+    },
+    "inventory": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/inventory/SKILL.md",
+      "purpose": "Scans existing docs, tickets, memory and wiki on a topic and classifies how each relates, before anything new is written",
+      "needs": ["phase", "facts", "decisions"],
+      "outputs": ".pm/existing.md",
+      "use_when": "Before discovery or tickets, when .pm/existing.md is missing or stale"
+    },
+    "review-zoom-out": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/review-zoom-out/SKILL.md",
+      "purpose": "Fresh-context read-only review of simplicity and scope: over-engineering, YAGNI, reinvention, wrong altitude",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document"
+    },
+    "review-comprehension": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/review-comprehension/SKILL.md",
+      "purpose": "Fresh-context read-only review as a newcomer: undefined terms, assumed steps, vague claims",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document"
+    },
+    "review-design": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/review-design/SKILL.md",
+      "purpose": "Fresh-context read-only review of architecture, scale, failure modes, security and unproven assumptions",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document"
+    },
+    "review-structural": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/review-structural/SKILL.md",
+      "purpose": "Fresh-context read-only review of required sections, heading order, formatting and links",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document"
+    },
+    "review-style": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/review-style/SKILL.md",
+      "purpose": "Fresh-context read-only review of writing: plain words, no fluff, no opinion, final state only",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document"
+    },
+    "review-readiness": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/review-readiness/SKILL.md",
+      "purpose": "Fresh-context read-only review of whether an engineer can build from the document with no further design choices",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document"
+    },
+    "review-codebase": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/review-codebase/SKILL.md",
+      "purpose": "Fresh-context read-only check of the document against .pm/evidence.md and read-only git: false statements, missing references, missed reuse",
+      "needs": ["phase"],
+      "outputs": null,
+      "use_when": "A review stage is running on a PRD, spec or design document, and .pm/evidence.md exists"
+    },
+    "review-synthesizer": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/review-synthesizer/SKILL.md",
+      "purpose": "Runs the reviewers of one stage in parallel, dedupes, triages Blocker, Major and Nit, writes the stage report and returns only its path; stage brainstorm runs the six idea lenses and writes the concepts brief",
+      "needs": ["phase"],
+      "outputs": ".pm/review/{stage}.md",
+      "use_when": "A review stage must run on a document, or the frame stage needs its brainstorm lenses",
+      "params": {"stage": ["brainstorm", "zoom-out", "comprehension", "critic", "readiness"]}
+    },
+    "resolve": {
+      "kind": "spine",
+      "tier": "fast",
+      "path": "skills/resolve/SKILL.md",
+      "purpose": "Sorts review findings into CONTEST, ESCALATE, PROPOSE FIX or DECLINE and walks the user through them one question at a time, in the main thread",
+      "needs": ["phase", "decisions", "openQuestions"],
+      "outputs": ".pm/review/{stage}-resolve.md",
+      "use_when": "A review stage report exists in .pm/review/ and the document needs its findings settled",
+      "params": {"stage": ["zoom-out", "comprehension", "critic", "readiness"]}
+    },
+    "eng": {
+      "kind": "spine",
+      "tier": "fast",
+      "path": "skills/eng/SKILL.md",
+      "purpose": "Engineering Director: plans tasks from a frozen PRD, runs build, review, fix, QA and the release gate with separate agents, local commits only",
+      "needs": ["phase", "facts", "decisions", "glossary", "openQuestions", "artifacts", "next"],
+      "outputs": ".pm/eng/tasks.json",
+      "use_when": "A PRD is frozen and its acceptance criteria are ready to build"
+    },
+    "builder": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/builder/SKILL.md",
+      "purpose": "Implements exactly one task in its own worktree, tests first when the repo has tests, and commits locally without pushing",
+      "needs": ["phase", "facts", "decisions", "glossary"],
+      "outputs": null,
+      "params": {"task": true},
+      "use_when": "The Engineering Director has an approved task ready to build, or findings to fix"
+    },
+    "task-reviewer": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/task-reviewer/SKILL.md",
+      "purpose": "Read-only review of one task's diff against the task, its criteria and the latest main; Blocker, Major, Nit with file and line",
+      "needs": ["phase"],
+      "outputs": null,
+      "params": {"task": true},
+      "use_when": "A task is built and needs a fresh-context review"
+    },
+    "backend-review": {
+      "kind": "agent",
+      "tier": "deep",
+      "path": "skills/agents/backend-review/SKILL.md",
+      "purpose": "Read-only judgement review of a backend diff against the backend checklist items the backend-check script cannot test; Blocker, Major, Nit with checklist item and file and line",
+      "needs": ["phase"],
+      "outputs": null,
+      "params": {"repo": true},
+      "use_when": "The release gate for acme_backend has passed backend-check and needs the judgement items reviewed"
+    },
+    "qa": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/qa/SKILL.md",
+      "purpose": "Runs the repo tests and exercises each acceptance criterion of one reviewed task, reporting pass or fail with commands and output; never edits code",
+      "needs": ["phase"],
+      "outputs": null,
+      "params": {"task": true},
+      "use_when": "A task has passed review and needs testing against its acceptance criteria"
+    },
+    "pr-split": {
+      "kind": "agent",
+      "tier": "fast",
+      "path": "skills/agents/pr-split/SKILL.md",
+      "purpose": "Groups planned tasks into ordered PRs of at most 20 files and 600 changed lines, each a complete step that builds and passes its tests alone",
+      "needs": ["phase", "facts", "decisions"],
+      "outputs": null,
+      "use_when": "The Engineering Director has a task list and needs it grouped into reviewable PRs"
+    }
+  }
+}
